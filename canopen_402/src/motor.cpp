@@ -472,7 +472,6 @@ void Motor402::handleInit(LayerStatus &status){
     for(std::unordered_map<uint16_t, AllocFuncType>::iterator it = mode_allocators_.begin(); it != mode_allocators_.end(); ++it){
         (it->second)();
     }
-
     if(!readState(status, Init)){
         status.error("Could not read motor state");
         return;
@@ -482,8 +481,8 @@ void Motor402::handleInit(LayerStatus &status){
         control_word_ = 0;
         start_fault_reset_ = true;
     }
-    if(!switchState(status, State402::Operation_Enable)){
-        status.error("Could not enable motor");
+    if(!switchState(status, init_state_)){
+        status.error("Could not init motor with state" + init_state_);
         return;
     }
 
